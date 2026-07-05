@@ -4,18 +4,23 @@
     padding:0;
     box-sizing:border-box;
     font-family:Arial, sans-serif;
-    
 }
 
+html, body, #root {
+  height: 100%;
+}
+
+/* Allow page to scroll; previously overflow:hidden hid content */
 body{
     background:#f5f8fa;
     color:#0f1419;
-    height:100vh;
-    overflow:hidden;
+    min-height:100vh;
 }
 
-/* ================= DARK MODE ================= */
-body.dark{
+/* ================ DARK MODE =============== */
+/* support both body.dark and html.dark (the inline script sets html.dark early) */
+body.dark,
+.dark body{
     background:#000;
     color:white;
 }
@@ -25,7 +30,13 @@ body.dark .feed,
 body.dark .right,
 body.dark .header,
 body.dark .tweet-box,
-body.dark .trending{
+body.dark .trending,
+.dark .sidebar,
+.dark .feed,
+.dark .right,
+.dark .header,
+.dark .tweet-box,
+.dark .trending {
     background:#111 !important;
     color:white;
 }
@@ -42,7 +53,7 @@ body.dark .tweet:hover{
 .container{
     display:grid;
     grid-template-columns:260px minmax(500px, 1fr) 320px;
-    height:100vh;
+    min-height:100vh;
     width:100%;
 }
 
@@ -54,9 +65,14 @@ body.dark .tweet:hover{
     flex-direction:column;
     justify-content:space-between;
     padding:15px;
-    height:100vh;
     position:sticky;
     top:0;
+    height:100vh;
+}
+
+.logo{
+    font-size:28px;
+    margin-bottom:8px;
 }
 
 .nav-item{
@@ -67,6 +83,7 @@ body.dark .tweet:hover{
     cursor:pointer;
     transition:0.2s;
     align-items:center;
+    margin-bottom:6px;
 }
 
 .nav-item:hover{
@@ -74,10 +91,15 @@ body.dark .tweet:hover{
     color:#1d9bf0;
 }
 
+/* sidebar bottom area */
+.sidebar-bottom {
+  margin-top: 12px;
+}
+
 /* ================= FEED ================= */
 .feed{
     background:white;
-    height:100vh;
+    min-height:100vh;
     overflow-y:auto;
     border-left:1px solid #e6ecf0;
     border-right:1px solid #e6ecf0;
@@ -112,12 +134,23 @@ textarea{
     border:none;
     outline:none;
     font-size:16px;
-    resize:none;
+    resize:vertical;
     min-height:60px;
+    background:transparent;
 }
 
-button{
-    align-self:flex-end;
+/* tweet controls (char count + button) */
+.tweet-controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+#charCount{
+    color: #6b7280;
+}
+
+#tweetButton{
     background:#1d9bf0;
     color:white;
     border:none;
@@ -127,23 +160,120 @@ button{
     transition:0.2s;
 }
 
-button:hover{
+#tweetButton:hover{
     background:#1989d6;
     transform:scale(1.03);
 }
 
+/* toggle button */
+#darkToggle {
+  background:transparent;
+  border:1px solid #e6ecf0;
+  padding:6px 10px;
+  border-radius:999px;
+  cursor:pointer;
+}
+#darkToggle:hover { background:#eef6fb; }
+
+/* ================= SEARCH (right sidebar) ================= */
+.search{
+  position:relative;
+  margin-bottom:12px;
+}
+
+.search input{
+  width:100%;
+  height:38px;
+  padding:8px 38px;
+  padding-left:36px; /* space for left icon */
+  border-radius:999px;
+  border:1px solid #e6ecf0;
+  outline:none;
+  font-size:14px;
+  background:white;
+  color:inherit;
+}
+
+.search input::placeholder {
+  color: #9aa8bf;
+}
+
+/* left search icon (as a button so it can be focused/clicked) */
+.search .search-icon-btn{
+  position:absolute;
+  left:8px;
+  top:50%;
+  transform:translateY(-50%);
+  height:24px;
+  width:24px;
+  border-radius:50%;
+  border:none;
+  background:transparent;
+  color:#6b7280;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* right clear button */
+.search .clear-btn{
+  position:absolute;
+  right:6px;
+  top:50%;
+  transform:translateY(-50%);
+  height:28px;
+  min-width:28px;
+  border-radius:50%;
+  border:none;
+  background:transparent;
+  color:#6b7280;
+  cursor:pointer;
+  display:none; /* shown when there is text */
+}
+
+/* visible state */
+.search .clear-btn.show { display:flex; }
+
+/* dark support for search */
+.dark .search input,
+body.dark .search input{
+  background:#111;
+  border:1px solid #222;
+  color:white;
+}
+.dark .search .search-icon-btn,
+body.dark .search .search-icon-btn,
+.dark .search .clear-btn,
+body.dark .search .clear-btn{
+  color:#9aa8bf;
+}
+
 /* ================= TWEETS ================= */
+.tweets-list{
+  padding:10px;
+}
+
 .tweet{
     display:flex;
     gap:10px;
     padding:15px;
     border-bottom:1px solid #e6ecf0;
     transition:0.2s;
+    align-items:flex-start;
 }
 
 .tweet:hover{
     background:#f7f9fa;
     transform:translateY(-1px);
+}
+
+.tweet .avatar {
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#cbd5e1;
+  flex-shrink:0;
 }
 
 .tweet p{
@@ -172,7 +302,7 @@ button:hover{
 /* ================= RIGHT SIDEBAR ================= */
 .right{
     background:#f5f8fa;
-    height:100vh;
+    min-height:100vh;
     padding:15px;
     position:sticky;
     top:0;
@@ -185,15 +315,21 @@ button:hover{
     box-shadow:0 1px 3px rgba(0,0,0,0.08);
 }
 
-.trending p{
-    margin-top:10px;
-    cursor:pointer;
-    transition:0.2s;
+.trending p {
+  margin-top: 10px;
+  cursor: pointer;
+  display: block;                    /* ensure block layout */
+  position: relative;                /* create stacking context for transforms */
+  z-index: 1;                         /* keep it above nearby elements */
+  transition: color 0.15s ease, transform 0.15s ease;
+  color: inherit;                     /* inherit page color (avoid accidental transparent) */
+  -webkit-font-smoothing: antialiased;
 }
 
-.trending p:hover{
-    color:#1d9bf0;
-    transform:translateX(3px);
+.trending p:hover {
+  color: #1d9bf0;
+  transform: translateX(3px);
+  text-decoration: none;
 }
 
 /* ================= RESPONSIVE ================= */

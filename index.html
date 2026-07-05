@@ -1,109 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twitter Clone</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Twitter Clone</title>
 
-<link rel="stylesheet" href="style.css">
+  <!-- Small inline script to set theme before the page renders (prevents flash) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('dark');
+        if (t === "true") {
+          document.documentElement.classList.add('dark');
+        }
+      } catch(e){}
+    })();
+  </script>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
+    <!-- LEFT SIDEBAR -->
+    <nav class="sidebar">
 
-        <div>
-            <div class="logo">
-                <i class="fa-brands fa-x-twitter"></i>
-            </div>
-
-            <div class="nav">
-
-                <div class="nav-item"><i class="fa fa-home"></i> Home</div>
-                <div class="nav-item"><i class="fa fa-hashtag"></i> Explore</div>
-                <div class="nav-item"><i class="fa fa-bell"></i> Notifications</div>
-                <div class="nav-item"><i class="fa fa-envelope"></i> Messages</div>
-
-            </div>
+      <div>
+        <div class="logo">
+          <i class="fa-brands fa-x-twitter"></i>
         </div>
 
+        <div class="nav">
+          <div class="nav-item"><i class="fa fa-home"></i> Home</div>
+          <div class="nav-item"><i class="fa fa-hashtag"></i> Explore</div>
+          <div class="nav-item"><i class="fa fa-bell"></i> Notifications</div>
+          <div class="nav-item"><i class="fa fa-envelope"></i> Messages</div>
+        </div>
+      </div>
+
+      <div class="sidebar-bottom">
         <div class="profile">
-            <div>
-                <b>You</b><br>
-                <small>@RebeccaMadubanya</small>
-            </div>
-            <i class="fa fa-ellipsis"></i>
+          <div>
+            <b>You</b><br />
+            <small>@RebeccaMadubanya</small>
+          </div>
+          <i class="fa fa-ellipsis"></i>
         </div>
 
-    </div>
-
- <!-- TWEET BOX -->
-        <div class="tweet-box">
-            <textarea id="tweetInput" placeholder="What's happening?"></textarea>
-            <button onclick="addTweet()">Tweet</button>
+        <!-- Dark mode toggle -->
+        <div style="margin-top:12px;">
+          <button id="darkToggle" onclick="toggleDark()" aria-pressed="false">🌙 Toggle Dark</button>
         </div>
+      </div>
 
-        <!-- TWEETS -->
-        <div id="tweets">
+    </nav>
 
-            <div class="tweet">
-                <i class="fa fa-user-circle fa-2x"></i>
-                <div>
-                    <b>Twitter Clone</b>
-                    <p>Welcome to your timeline 🚀</p>
+    <!-- CENTER FEED (wraps tweet box and tweets) -->
+    <main class="feed" role="main" aria-label="Timeline">
 
-                    <div class="actions">
-                        <i class="fa fa-comment"></i>
-                        <i class="fa fa-retweet"></i>
-                        <i class="fa fa-heart"></i>
-                        <i class="fa fa-share"></i>
-                    </div>
-                </div>
-            </div>
+      <!-- sticky header -->
+      <header class="header">
+        <h2>Home</h2>
+        <div class="header-right"><i class="fa fa-cog"></i></div>
+      </header>
 
-            <div class="tweet">
-                <i class="fa fa-user-circle fa-2x"></i>
-                <div>
-                    <b>Developer</b>
-                    <p>This is your Twitter clone project 💻</p>
-
-                    <div class="actions">
-                        <i class="fa fa-comment"></i>
-                        <i class="fa fa-retweet"></i>
-                        <i class="fa fa-heart"></i>
-                        <i class="fa fa-share"></i>
-                    </div>
-                </div>
-            </div>
-
+      <!-- TWEET BOX -->
+      <section class="tweet-box" aria-label="Create a tweet">
+        <textarea id="tweetInput" placeholder="What's happening?" rows="3"></textarea>
+        <div class="tweet-controls">
+          <small id="charCount">280</small>
+          <button id="tweetButton" onclick="addTweet()">Tweet</button>
         </div>
+      </section>
+
+      <!-- TWEETS CONTAINER -->
+      <section id="tweets" aria-live="polite" class="tweets-list"></section>
+
+    </main>
 
     <!-- RIGHT SIDEBAR -->
-    <aside class="right">
+    <aside class="right" aria-label="Trending">
+      <div class="trending">
 
-        <div class="trending">
-            <h3>Trending</h3>
-
-            <p>#JavaScript</p>
-            <p>#HTML</p>
-            <p>#CSS</p>
-            <p>#Frontend</p>
-            <p>#WebDevelopment</p>
-
+        <!-- Search bar with icons inside -->
+        <div class="search">
+          <button class="search-icon-btn" id="searchIcon" aria-hidden="true" title="Search"><i class="fa fa-search"></i></button>
+          <input id="searchInput" type="search" placeholder="Search Twitter" aria-label="Search" />
+          <button id="clearSearch" class="clear-btn" aria-label="Clear search" title="Clear search"><i class="fa fa-times"></i></button>
         </div>
 
+        <h3>Trending</h3>
+
+        <p>#JavaScript</p>
+        <p>#HTML</p>
+        <p>#CSS</p>
+        <p>#Frontend</p>
+        <p>#WebDevelopment</p>
+
+      </div>
     </aside>
 
-</div>
+  </div>
 
-<!-- External JS -->
-<script src="app.js"></script>
-
+  <!-- External JS -->
+  <script src="app.js"></script>
 </body>
 </html>
