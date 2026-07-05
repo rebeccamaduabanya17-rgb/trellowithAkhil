@@ -55,6 +55,7 @@ body.dark .tweet:hover{
     grid-template-columns:260px minmax(500px, 1fr) 320px;
     min-height:100vh;
     width:100%;
+    overflow:visible;
 }
 
 /* ================= LEFT SIDEBAR ================= */
@@ -68,6 +69,10 @@ body.dark .tweet:hover{
     position:sticky;
     top:0;
     height:100vh;
+<<<<<<< HEAD
+=======
+    z-index:20;
+>>>>>>> 7969e4f0adefd32778e050d6671773bc3265a5de
 }
 
 .logo{
@@ -97,6 +102,8 @@ body.dark .tweet:hover{
 }
 
 /* ================= FEED ================= */
+/* Add a right margin so feed content cannot visually overlap the right column.
+   This is a robust safety net for narrow layouts and long content. */
 .feed{
     background:white;
     min-height:100vh;
@@ -104,6 +111,10 @@ body.dark .tweet:hover{
     border-left:1px solid #e6ecf0;
     border-right:1px solid #e6ecf0;
     scroll-behavior:smooth;
+    position:relative;
+    z-index:10; /* keep feed below the right sidebar */
+    margin-right: 340px; /* reserve space for the right column (320px + gap) */
+    padding-right: 12px; /* small inner gap */
 }
 
 /* sticky header */
@@ -116,7 +127,7 @@ body.dark .tweet:hover{
     top:0;
     background:white;
     border-bottom:1px solid #e6ecf0;
-    z-index:10;
+    z-index:11; /* above feed content */
     backdrop-filter: blur(10px);
 }
 
@@ -261,8 +272,15 @@ body.dark .search .clear-btn{
     border-bottom:1px solid #e6ecf0;
     transition:0.2s;
     align-items:flex-start;
+<<<<<<< HEAD
+=======
+    position:relative;
+    z-index:12; /* ensure tweets are below header but below sidebar */
+    overflow:visible;
+>>>>>>> 7969e4f0adefd32778e050d6671773bc3265a5de
 }
 
+/* reduce hover movement so nothing shifts into sidebar */
 .tweet:hover{
     background:#f7f9fa;
     transform:translateY(-1px);
@@ -274,6 +292,21 @@ body.dark .search .clear-btn{
   border-radius:50%;
   background:#cbd5e1;
   flex-shrink:0;
+<<<<<<< HEAD
+=======
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden; /* prevent icon overflowing into sidebar */
+  position:relative;
+  z-index:13; /* above tweet body but below sidebar */
+}
+
+/* constrain tweet body so it cannot expand past the center column */
+.tweet-body {
+  max-width: calc(100% - 64px);
+  word-break: break-word;
+>>>>>>> 7969e4f0adefd32778e050d6671773bc3265a5de
 }
 
 .tweet p{
@@ -300,12 +333,15 @@ body.dark .search .clear-btn{
 }
 
 /* ================= RIGHT SIDEBAR ================= */
+/* Make the right column visually dominant and always above feed content */
 .right{
     background:#f5f8fa;
     min-height:100vh;
     padding:15px;
     position:sticky;
     top:0;
+    z-index:9999; /* keep it above feed content */
+    box-shadow: -6px 0 12px rgba(0,0,0,0.04);
 }
 
 .trending{
@@ -313,8 +349,11 @@ body.dark .search .clear-btn{
     padding:15px;
     border-radius:12px;
     box-shadow:0 1px 3px rgba(0,0,0,0.08);
+    position:relative;
+    z-index:10000; /* ensure trending sits above feed items */
 }
 
+<<<<<<< HEAD
 .trending p {
   margin-top: 10px;
   cursor: pointer;
@@ -324,6 +363,17 @@ body.dark .search .clear-btn{
   transition: color 0.15s ease, transform 0.15s ease;
   color: inherit;                     /* inherit page color (avoid accidental transparent) */
   -webkit-font-smoothing: antialiased;
+=======
+.trending p{
+    margin-top:10px;
+    cursor:pointer;
+    transition: color 0.15s ease, transform 0.15s ease;
+    display:block;
+    position:relative;
+    z-index:10001;
+    color:inherit;
+    -webkit-font-smoothing:antialiased;
+>>>>>>> 7969e4f0adefd32778e050d6671773bc3265a5de
 }
 
 .trending p:hover {
@@ -332,11 +382,32 @@ body.dark .search .clear-btn{
   text-decoration: none;
 }
 
+/* ================= SAFETY: prevent feed content from overlapping right column ================= */
+/* Keep a visible separator line between feed and right column */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 320px; /* line up with left edge of right column */
+  width: 1px;
+  background: rgba(0,0,0,0.03);
+  pointer-events: none;
+  z-index: 30;
+}
+
+/* ensure long words/wrapping don't overflow */
+.tweet-body, .trending p {
+  word-break: break-word;
+}
+
 /* ================= RESPONSIVE ================= */
 @media(max-width:900px){
     .container{
         grid-template-columns:80px 1fr;
     }
+
+    .feed{ margin-right: 0; }
 
     .right{
         display:none;
