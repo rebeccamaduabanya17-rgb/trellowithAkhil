@@ -24,6 +24,29 @@
 
 <body>
 
+  <!-- LOGIN MODAL (shows on page load if not logged in) -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="login-modal">
+      <div class="modal-header">
+        <h2>Welcome to Twitter Clone</h2>
+      </div>
+      
+      <div class="modal-content">
+        <div class="form-group">
+          <label for="usernameInput">Username</label>
+          <input id="usernameInput" type="text" placeholder="Enter your username" />
+        </div>
+        
+        <div class="form-group">
+          <label for="handleInput">Handle (e.g., @yourname)</label>
+          <input id="handleInput" type="text" placeholder="@yourname" />
+        </div>
+        
+        <button id="signInBtn" class="sign-in-btn">Sign In</button>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
 
     <!-- LEFT SIDEBAR -->
@@ -36,7 +59,7 @@
 
         <div class="nav">
           <div class="nav-item"><i class="fa fa-home"></i> Home</div>
-          <div class="nav-item"><i class="fa fa-hashtag"></i> Explore</div>
+          <div class="nav-item" id="exploreNav"><i class="fa fa-hashtag"></i> Explore</div>
           <div class="nav-item"><i class="fa fa-bell"></i> Notifications</div>
           <div class="nav-item"><i class="fa fa-envelope"></i> Messages</div>
         </div>
@@ -45,8 +68,8 @@
       <div class="sidebar-bottom">
         <div class="profile">
           <div>
-            <b>You</b><br />
-            <small>@RebeccaMadubanya</small>
+            <b id="profileUsername">You</b><br />
+            <small id="profileHandle">@user</small>
           </div>
           <i class="fa fa-ellipsis"></i>
         </div>
@@ -54,6 +77,11 @@
         <!-- Dark mode toggle -->
         <div style="margin-top:12px;">
           <button id="darkToggle" onclick="toggleDark()" aria-pressed="false">🌙 Toggle Dark</button>
+        </div>
+
+        <!-- Logout button -->
+        <div style="margin-top:8px;">
+          <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
         </div>
       </div>
 
@@ -104,6 +132,26 @@
       </div>
     </aside>
 
+  </div>
+
+  <!-- EXPLORE MODAL (hidden by default) -->
+  <div id="exploreModal" class="modal-overlay">
+    <div class="explore-modal">
+      <div class="modal-header">
+        <h2>Explore</h2>
+        <button id="closeExplore" class="close-btn" aria-label="Close"><i class="fa fa-times"></i></button>
+      </div>
+      
+      <div class="modal-content">
+        <div class="explore-search">
+          <input id="exploreSearchInput" type="search" placeholder="Search trends..." />
+        </div>
+        
+        <div id="exploreList" class="explore-list">
+          <!-- Trending items will be populated here -->
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- External JS -->
