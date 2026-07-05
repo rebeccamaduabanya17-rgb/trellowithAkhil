@@ -1,109 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twitter Clone</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Clone - FakeTwitter HQ</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
-
-<div class="container">
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-
-        <div>
-            <div class="logo">
-                <i class="fa-brands fa-x-twitter"></i>
-            </div>
-
-            <div class="nav">
-
-                <div class="nav-item"><i class="fa fa-home"></i> Home</div>
-                <div class="nav-item"><i class="fa fa-hashtag"></i> Explore</div>
-                <div class="nav-item"><i class="fa fa-bell"></i> Notifications</div>
-                <div class="nav-item"><i class="fa fa-envelope"></i> Messages</div>
-
-            </div>
-        </div>
-
-        <div class="profile">
+    <div class="container">
+        <!-- LEFT SIDEBAR -->
+        <div class="sidebar">
             <div>
-                <b>You</b><br>
-                <small>@RebeccaMadubanya</small>
+                <!-- Twitter Logo -->
+                <div class="logo">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </div>
+
+                <!-- Navigation Items -->
+                <div class="nav">
+                    <div class="nav-item">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fa fa-hashtag"></i>
+                        <span>Explore</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fa fa-bell"></i>
+                        <span>Notifications</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fa fa-envelope"></i>
+                        <span>Messages</span>
+                    </div>
+                </div>
             </div>
-            <i class="fa fa-ellipsis"></i>
+
+            <!-- Profile Actions at Bottom -->
+            <div class="profile-actions">
+                <div class="profile-info">
+                    <div>
+                        <b>Rebecca Madubanya</b><br>
+                        <small>@RebeccaMadubanya</small>
+                    </div>
+                    <i class="fa fa-ellipsis"></i>
+                </div>
+                <button class="dark-mode-toggle" onclick="toggleDark()" title="Toggle Dark Mode">
+                    <i class="fa fa-moon"></i>
+                </button>
+            </div>
         </div>
 
+        <!-- CENTER FEED -->
+        <div class="feed">
+            <!-- Header with Title and Star Icon -->
+            <div class="header">
+                <div class="header-title">
+                    <h2>Home</h2>
+                </div>
+                <div class="header-icon">
+                    <i class="fa fa-star"></i>
+                </div>
+            </div>
+
+            <!-- Post Tweet Section -->
+            <div class="tweet-box">
+                <div class="tweet-box-container">
+                    <i class="fa fa-user-circle fa-2x"></i>
+                    <div class="tweet-input-area">
+                        <textarea id="tweetInput" placeholder="What's happening?!"></textarea>
+                        <div class="tweet-box-icons">
+                            <div class="tweet-icons">
+                                <i class="fa fa-image"></i>
+                                <i class="fa fa-gif"></i>
+                                <i class="fa fa-smile"></i>
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <button class="tweet-btn" onclick="addTweet()">Tweet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tweets Feed -->
+            <div id="tweets-container">
+                <!-- Default Welcome Tweet -->
+                <div class="tweet">
+                    <i class="fa fa-user-circle fa-2x"></i>
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <b>Twitter Clone</b>
+                            <span class="tweet-handle">@FakeTwitterHQ · 2h</span>
+                        </div>
+                        <p class="tweet-text">Welcome to FakeTwitter HQ! Build a Twitter Timeline clone so real, people might try to tweet from it. 🚀</p>
+                        <div class="tweet-actions">
+                            <div class="action-item" onclick="toggleComment(this)">
+                                <i class="fa fa-comment"></i>
+                                <span>42</span>
+                            </div>
+                            <div class="action-item" onclick="toggleRetweet(this)">
+                                <i class="fa fa-retweet"></i>
+                                <span>128</span>
+                            </div>
+                            <div class="action-item" onclick="toggleLike(this)">
+                                <i class="fa fa-heart"></i>
+                                <span>342</span>
+                            </div>
+                            <div class="action-item" onclick="toggleShare(this)">
+                                <i class="fa fa-share"></i>
+                                <span>25</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Tweet -->
+                <div class="tweet">
+                    <i class="fa fa-user-circle fa-2x"></i>
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <b>Web Developer</b>
+                            <span class="tweet-handle">@WebDevCoder · 4h</span>
+                        </div>
+                        <p class="tweet-text">Building with HTML, CSS, and JavaScript feels like pure magic sometimes. 💻✨</p>
+                        <div class="tweet-actions">
+                            <div class="action-item" onclick="toggleComment(this)">
+                                <i class="fa fa-comment"></i>
+                                <span>15</span>
+                            </div>
+                            <div class="action-item" onclick="toggleRetweet(this)">
+                                <i class="fa fa-retweet"></i>
+                                <span>89</span>
+                            </div>
+                            <div class="action-item" onclick="toggleLike(this)">
+                                <i class="fa fa-heart"></i>
+                                <span>234</span>
+                            </div>
+                            <div class="action-item" onclick="toggleShare(this)">
+                                <i class="fa fa-share"></i>
+                                <span>12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR - Trending -->
+        <aside class="right-sidebar">
+            <div class="trending-container">
+                <h3>What's happening?!</h3>
+
+                <div class="trending-item">
+                    <div class="trending-label">Trending Worldwide</div>
+                    <div class="trending-topic">#JavaScript</div>
+                    <div class="trending-count">1.2M Posts</div>
+                </div>
+
+                <div class="trending-item">
+                    <div class="trending-label">Technology · Trending</div>
+                    <div class="trending-topic">#WebDevelopment</div>
+                    <div class="trending-count">856K Posts</div>
+                </div>
+
+                <div class="trending-item">
+                    <div class="trending-label">Programming · Trending</div>
+                    <div class="trending-topic">#ReactJS</div>
+                    <div class="trending-count">743K Posts</div>
+                </div>
+
+                <div class="trending-item">
+                    <div class="trending-label">Frontend · Trending</div>
+                    <div class="trending-topic">#CSS</div>
+                    <div class="trending-count">542K Posts</div>
+                </div>
+
+                <div class="trending-item">
+                    <div class="trending-label">Design · Trending</div>
+                    <div class="trending-topic">#UI/UX</div>
+                    <div class="trending-count">438K Posts</div>
+                </div>
+            </div>
+        </aside>
     </div>
 
- <!-- TWEET BOX -->
-        <div class="tweet-box">
-            <textarea id="tweetInput" placeholder="What's happening?"></textarea>
-            <button onclick="addTweet()">Tweet</button>
-        </div>
-
-        <!-- TWEETS -->
-        <div id="tweets">
-
-            <div class="tweet">
-                <i class="fa fa-user-circle fa-2x"></i>
-                <div>
-                    <b>Twitter Clone</b>
-                    <p>Welcome to your timeline 🚀</p>
-
-                    <div class="actions">
-                        <i class="fa fa-comment"></i>
-                        <i class="fa fa-retweet"></i>
-                        <i class="fa fa-heart"></i>
-                        <i class="fa fa-share"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tweet">
-                <i class="fa fa-user-circle fa-2x"></i>
-                <div>
-                    <b>Developer</b>
-                    <p>This is your Twitter clone project 💻</p>
-
-                    <div class="actions">
-                        <i class="fa fa-comment"></i>
-                        <i class="fa fa-retweet"></i>
-                        <i class="fa fa-heart"></i>
-                        <i class="fa fa-share"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    <!-- RIGHT SIDEBAR -->
-    <aside class="right">
-
-        <div class="trending">
-            <h3>Trending</h3>
-
-            <p>#JavaScript</p>
-            <p>#HTML</p>
-            <p>#CSS</p>
-            <p>#Frontend</p>
-            <p>#WebDevelopment</p>
-
-        </div>
-
-    </aside>
-
-</div>
-
-<!-- External JS -->
-<script src="app.js"></script>
-
+    <!-- External JS -->
+    <script src="app.js"></script>
 </body>
 </html>
