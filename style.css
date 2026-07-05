@@ -41,12 +41,31 @@ body.dark .trending,
     color:white;
 }
 
-body.dark .tweet{
+body.dark .tweet,
+.dark .tweet {
     border-color:#222;
+    color:white;
 }
 
-body.dark .tweet:hover{
+body.dark .tweet p,
+.dark .tweet p {
+    color:white;
+}
+
+body.dark .tweet-header,
+.dark .tweet-header {
+    color:white;
+}
+
+body.dark .tweet:hover,
+.dark .tweet:hover {
     background:#1a1a1a;
+}
+
+body.dark textarea,
+.dark textarea {
+    background:#111;
+    color:white;
 }
 
 body.dark .login-modal,
@@ -69,6 +88,7 @@ body.dark .explore-search input,
 body.dark .explore-item,
 .dark .explore-item {
     border-color:#222;
+    color:white;
 }
 
 body.dark .explore-item:hover,
@@ -164,6 +184,7 @@ textarea{
     resize:vertical;
     min-height:60px;
     background:transparent;
+    color:inherit;
 }
 
 /* tweet controls (char count + button) */
@@ -175,6 +196,11 @@ textarea{
 
 #charCount{
     color: #6b7280;
+}
+
+body.dark #charCount,
+.dark #charCount {
+    color:#9aa8bf;
 }
 
 #tweetButton{
@@ -200,8 +226,20 @@ textarea{
   border-radius:999px;
   cursor:pointer;
   transition:0.2s;
+  color:inherit;
 }
 #darkToggle:hover { background:#eef6fb; }
+
+body.dark #darkToggle,
+.dark #darkToggle {
+    color:white;
+    border-color:#333;
+}
+
+body.dark #darkToggle:hover,
+.dark #darkToggle:hover {
+    background:#222;
+}
 
 /* logout button */
 .logout-btn {
@@ -213,8 +251,15 @@ textarea{
   transition:0.2s;
   width:100%;
   font-size:14px;
+  color:inherit;
 }
 .logout-btn:hover { background:#eef6fb; }
+
+body.dark .logout-btn,
+.dark .logout-btn {
+    color:white;
+    border-color:#333;
+}
 
 body.dark .logout-btn:hover,
 .dark .logout-btn:hover {
@@ -307,6 +352,7 @@ body.dark .search .clear-btn{
     border-bottom:1px solid #e6ecf0;
     transition:0.2s;
     align-items:flex-start;
+    color:#0f1419;
 }
 
 .tweet:hover{
@@ -324,6 +370,11 @@ body.dark .search .clear-btn{
 
 .tweet p{
     margin-top:4px;
+    color:inherit;
+}
+
+.tweet-header {
+    color:inherit;
 }
 
 /* actions */
@@ -342,6 +393,12 @@ body.dark .search .clear-btn{
 
 .actions i:hover{
     background:#e8f5fe;
+    color:#1d9bf0;
+}
+
+body.dark .actions i:hover,
+.dark .actions i:hover {
+    background:#222;
     color:#1d9bf0;
 }
 
@@ -427,6 +484,11 @@ body.dark .search .clear-btn{
   color: #0f1419;
 }
 
+body.dark .modal-header h2,
+.dark .modal-header h2 {
+  color:white;
+}
+
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -445,6 +507,11 @@ body.dark .search .clear-btn{
   color: #0f1419;
 }
 
+body.dark .form-group label,
+.dark .form-group label {
+  color:white;
+}
+
 .form-group input {
   padding: 12px;
   border: 1px solid #e6ecf0;
@@ -452,6 +519,7 @@ body.dark .search .clear-btn{
   font-size: 16px;
   outline: none;
   transition: 0.2s;
+  color:inherit;
 }
 
 .form-group input:focus {
@@ -512,6 +580,11 @@ body.dark .search .clear-btn{
   transition: 0.2s;
 }
 
+body.dark .close-btn,
+.dark .close-btn {
+  color:white;
+}
+
 .close-btn:hover {
   color: #1d9bf0;
 }
@@ -529,6 +602,7 @@ body.dark .search .clear-btn{
   font-size: 14px;
   outline: none;
   transition: 0.2s;
+  color:inherit;
 }
 
 .explore-search input:focus {
@@ -552,16 +626,31 @@ body.dark .search .clear-btn{
   background: #f7f9fa;
 }
 
+body.dark .explore-item:hover,
+.dark .explore-item:hover {
+  background:#1a1a1a;
+}
+
 .explore-item-name {
   font-size: 16px;
   font-weight: 600;
   color: #0f1419;
 }
 
+body.dark .explore-item-name,
+.dark .explore-item-name {
+  color:white;
+}
+
 .explore-item-count {
   font-size: 13px;
   color: #6b7280;
   margin-top: 4px;
+}
+
+body.dark .explore-item-count,
+.dark .explore-item-count {
+  color:#9aa8bf;
 }
 
 /* ================= RESPONSIVE ================= */
