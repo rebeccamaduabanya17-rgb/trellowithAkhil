@@ -1,0 +1,208 @@
+/* ================= RESET ================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+    
+}
+
+body{
+    background:#f5f8fa;
+    color:#0f1419;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* ================= DARK MODE ================= */
+body.dark{
+    background:#000;
+    color:white;
+}
+
+body.dark .sidebar,
+body.dark .feed,
+body.dark .right,
+body.dark .header,
+body.dark .tweet-box,
+body.dark .trending{
+    background:#111 !important;
+    color:white;
+}
+
+body.dark .tweet{
+    border-color:#222;
+}
+
+body.dark .tweet:hover{
+    background:#1a1a1a;
+}
+
+/* ================= MAIN LAYOUT ================= */
+.container{
+    display:grid;
+    grid-template-columns:260px minmax(500px, 1fr) 320px;
+    height:100vh;
+    width:100%;
+}
+
+/* ================= LEFT SIDEBAR ================= */
+.sidebar{
+    background:white;
+    border-right:1px solid #e6ecf0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:15px;
+    height:100vh;
+    position:sticky;
+    top:0;
+}
+
+.nav-item{
+    display:flex;
+    gap:12px;
+    padding:12px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:0.2s;
+    align-items:center;
+}
+
+.nav-item:hover{
+    background:#e8f5fe;
+    color:#1d9bf0;
+}
+
+/* ================= FEED ================= */
+.feed{
+    background:white;
+    height:100vh;
+    overflow-y:auto;
+    border-left:1px solid #e6ecf0;
+    border-right:1px solid #e6ecf0;
+    scroll-behavior:smooth;
+}
+
+/* sticky header */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    position:sticky;
+    top:0;
+    background:white;
+    border-bottom:1px solid #e6ecf0;
+    z-index:10;
+    backdrop-filter: blur(10px);
+}
+
+/* ================= TWEET BOX ================= */
+.tweet-box{
+    padding:15px;
+    border-bottom:1px solid #e6ecf0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+textarea{
+    width:100%;
+    border:none;
+    outline:none;
+    font-size:16px;
+    resize:none;
+    min-height:60px;
+}
+
+button{
+    align-self:flex-end;
+    background:#1d9bf0;
+    color:white;
+    border:none;
+    padding:8px 16px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover{
+    background:#1989d6;
+    transform:scale(1.03);
+}
+
+/* ================= TWEETS ================= */
+.tweet{
+    display:flex;
+    gap:10px;
+    padding:15px;
+    border-bottom:1px solid #e6ecf0;
+    transition:0.2s;
+}
+
+.tweet:hover{
+    background:#f7f9fa;
+    transform:translateY(-1px);
+}
+
+.tweet p{
+    margin-top:4px;
+}
+
+/* actions */
+.actions{
+    margin-top:8px;
+    display:flex;
+    gap:12px;
+}
+
+.actions i{
+    cursor:pointer;
+    padding:6px;
+    border-radius:50%;
+    transition:0.2s;
+}
+
+.actions i:hover{
+    background:#e8f5fe;
+    color:#1d9bf0;
+}
+
+/* ================= RIGHT SIDEBAR ================= */
+.right{
+    background:#f5f8fa;
+    height:100vh;
+    padding:15px;
+    position:sticky;
+    top:0;
+}
+
+.trending{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.08);
+}
+
+.trending p{
+    margin-top:10px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.trending p:hover{
+    color:#1d9bf0;
+    transform:translateX(3px);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:900px){
+    .container{
+        grid-template-columns:80px 1fr;
+    }
+
+    .right{
+        display:none;
+    }
+}
