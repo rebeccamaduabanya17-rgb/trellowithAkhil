@@ -1,4 +1,79 @@
 // =========================
+// LOGIN / AUTHENTICATION
+// =========================
+
+let currentUser = null;
+
+function initializeLogin() {
+  // Check if user is already logged in
+  const savedUser = localStorage.getItem("currentUser");
+  
+  if (savedUser) {
+    currentUser = JSON.parse(savedUser);
+    hideLoginModal();
+    updateProfileDisplay();
+  } else {
+    showLoginModal();
+  }
+}
+
+function showLoginModal() {
+  const modal = document.getElementById("loginModal");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function hideLoginModal() {
+  const modal = document.getElementById("loginModal");
+  if (modal) modal.classList.add("hidden");
+}
+
+function handleSignIn() {
+  const usernameInput = document.getElementById("usernameInput");
+  const handleInput = document.getElementById("handleInput");
+  
+  if (!usernameInput || !handleInput) return;
+  
+  const username = usernameInput.value.trim();
+  const handle = handleInput.value.trim();
+  
+  if (username === "" || handle === "") {
+    alert("Please enter both username and handle");
+    return;
+  }
+  
+  // Save user to localStorage
+  currentUser = { username, handle };
+  localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  
+  // Hide modal and update display
+  hideLoginModal();
+  updateProfileDisplay();
+  
+  // Clear inputs
+  usernameInput.value = "";
+  handleInput.value = "";
+}
+
+function handleLogout() {
+  localStorage.removeItem("currentUser");
+  currentUser = null;
+  localStorage.removeItem("tweets");
+  tweets = [];
+  document.getElementById("tweets").innerHTML = "";
+  showLoginModal();
+}
+
+function updateProfileDisplay() {
+  if (!currentUser) return;
+  
+  const profileUsername = document.getElementById("profileUsername");
+  const profileHandle = document.getElementById("profileHandle");
+  
+  if (profileUsername) profileUsername.textContent = currentUser.username;
+  if (profileHandle) profileHandle.textContent = currentUser.handle;
+}
+
+// =========================
 // LOAD DATA (with seeds)
 // =========================
 
@@ -34,6 +109,9 @@ if (!tweets || tweets.length === 0) {
 // =========================
 
 window.addEventListener('DOMContentLoaded', () => {
+  // Initialize login first
+  initializeLogin();
+  
   // render tweets in stored order (oldest-first -> append)
   const stored = tweets || [];
   stored.forEach(t => renderTweet(t, false));
@@ -57,7 +135,45 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // setup search input + trending filter
   setupSearch();
+  
+  // setup login modal handlers
+  setupLoginHandlers();
+  
+  // setup explore modal handlers
+  setupExploreHandlers();
 });
+
+// =========================
+// LOGIN MODAL HANDLERS
+// =========================
+
+function setupLoginHandlers() {
+  const signInBtn = document.getElementById("signInBtn");
+  const usernameInput = document.getElementById("usernameInput");
+  const handleInput = document.getElementById("handleInput");
+  const logoutBtn = document.getElementById("logoutBtn");
+  
+  if (signInBtn) {
+    signInBtn.addEventListener("click", handleSignIn);
+  }
+  
+  // Allow Enter key to sign in
+  if (usernameInput) {
+    usernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleSignIn();
+    });
+  }
+  
+  if (handleInput) {
+    handleInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleSignIn();
+    });
+  }
+  
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", handleLogout);
+  }
+}
 
 // =========================
 // DARK MODE
@@ -92,15 +208,15 @@ if (localStorage.getItem("dark") === "true") {
 
 function addTweet() {
     const input = document.getElementById("tweetInput");
-    if (!input) return;
+    if (!input || !currentUser) return;
     const text = input.value.trim();
 
     if (text === "") return;
 
     const tweet = {
         id: Date.now(),
-        username: "You",
-        handle: "@you",
+        username: currentUser.username,
+        handle: currentUser.handle,
         text: text,
         likes: 0,
         retweets: 0,
@@ -269,6 +385,128 @@ function setupSearch() {
     if (e.key === 'Enter') input.blur();
   });
 }
+
+// =========================
+// EXPLORE MODAL HANDLERS
+// =========================
+
+const trendingTopics = [
+  { name: "#JavaScript", count: 245 },
+  { name: "#HTML", count: 189 },
+  { name: "#CSS", count: 156 },
+  { name: "#Frontend", count: 423 },
+  { name: "#WebDevelopment", count: 512 },
+  { name: "#React", count: 334 },
+  { name: "#CodingLife", count: 287 }
+];
+
+function setupExploreHandlers() {
+  const exploreNav = document.getElementById("exploreNav");
+  const exploreModal = document.getElementById("exploreModal");
+  const closeExploreBtn = document.getElementById("closeExplore");
+  const exploreSearchInput = document.getElementById("exploreSearchInput");
+  
+  if (exploreNav) {
+    exploreNav.addEventListener("click", () => {
+      openExploreModal();
+    });
+  }
+  
+  if (closeExploreBtn) {
+    closeExploreBtn.addEventListener("click", () => {
+      closeExploreModal();
+    });
+  }
+  
+  // Close modal when clicking outside
+  if (exploreModal) {
+    exploreModal.addEventListener("click", (e) => {
+      if (e.target === exploreModal) {
+        closeExploreModal();
+      }
+    });
+  }
+  
+  if (exploreSearchInput) {
+    exploreSearchInput.addEventListener("input", filterExploreList);
+  }
+  
+  // Populate explore list
+  populateExploreList();
+}
+
+function openExploreModal() {
+  const modal = document.getElementById("exploreModal");
+  if (modal) modal.classList.remove("hidden");
+  populateExploreList();
+}
+
+function closeExploreModal() {
+  const modal = document.getElementById("exploreModal");
+  if (modal) modal.classList.add("hidden");
+}
+
+function populateExploreList(filter = "") {
+  const exploreList = document.getElementById("exploreList");
+  if (!exploreList) return;
+  
+  exploreList.innerHTML = "";
+  
+  const filteredTopics = trendingTopics.filter(topic => 
+    topic.name.toLowerCase().includes(filter.toLowerCase())
+  );
+  
+  filteredTopics.forEach(topic => {
+    const div = document.createElement("div");
+    div.className = "explore-item";
+    div.innerHTML = `
+      <div class="explore-item-name">${topic.name}</div>
+      <div class="explore-item-count">${topic.count} Tweets</div>
+    `;
+    
+    div.addEventListener("click", () => {
+      filterTweetsByTrend(topic.name);
+      closeExploreModal();
+    });
+    
+    exploreList.appendChild(div);
+  });
+}
+
+function filterExploreList(e) {
+  const query = e.target.value.trim();
+  populateExploreList(query);
+}
+
+function filterTweetsByTrend(trend) {
+  const tweetsList = document.getElementById("tweets");
+  if (!tweetsList) return;
+  
+  const allTweets = tweetsList.querySelectorAll(".tweet");
+  
+  allTweets.forEach(tweet => {
+    const tweetText = tweet.querySelector("p").textContent.toLowerCase();
+    if (tweetText.includes(trend.toLowerCase())) {
+      tweet.style.display = "";
+      tweet.style.animation = "none";
+      setTimeout(() => {
+        tweet.style.animation = "fadeIn 0.3s ease-in";
+      }, 10);
+    } else {
+      tweet.style.display = "none";
+    }
+  });
+}
+
+// Add fade-in animation for filtered tweets
+const style = document.createElement("style");
+style.textContent = `
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+`;
+document.head.appendChild(style);
 
 // =========================
 // UTILITIES
